@@ -1,0 +1,181 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  color: #222;
+}
+
+header {
+  background-color: #d9ef9f;
+  padding: 20px;
+  text-align: center;
+}
+
+nav {
+  background-color: #ab9680;
+}
+
+h1,
+h2,
+h3 {
+  color: #342104;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+nav li {
+  margin: 5px 10px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+main {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+section {
+  margin-bottom: 30px;
+}
+
+article {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+footer {
+  background-color: #f2f2f2;
+  text-align: center;
+  padding: 15px;
+  margin-top: 30px;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+
+input,
+select,
+textarea {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+button {
+  margin-top: 15px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.error {
+  display: none;
+  color: #b00020;
+  margin-top: 4px;
+}
+
+.error.visible {
+  display: block;
+}
+
+.obligatorio {
+  color: #b00020;
+}
+
+.boton-registro {
+  display: block;
+  margin-top: 15px;
+}
+
+.avistamiento {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+.avistamiento h3 {
+  margin-top: 0;
+}
+
+.paginacion {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.paginacion button {
+  margin-top: 0;
+}
+
+.paginacion span {
+  color: #222;
+}
+
+.resumen-indicadores {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.resumen-indicadores article {
+  flex: 1;
+  min-width: 200px;
+  text-align: center;
+}
+
+.numero-indicador {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.grafico {
+  max-width: 700px;
+}
+
+.barra-contenedor {
+  margin-bottom: 15px;
+}
+
+.barra-etiqueta {
+  margin-bottom: 4px;
+}
+
+.barra {
+  background-color: #dcebdc;
+  border: 1px solid #999;
+  height: 28px;
+}
+
+.barra-valor {
+  background-color: #4f8059;
+  color: white;
+  height: 100%;
+  text-align: right;
+  padding-right: 8px;
+  box-sizing: border-box;
+  line-height: 28px;
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrar avistamiento</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Registrar avistamiento</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="registro-voluntario.html">Registrar voluntario</a></li>
+      <li><a href="registrar-avistamiento.html">Registrar avistamiento</a></li>
+      <li><a href="listado-avistamientos.html">Consultar avistamientos</a></li>
+      <li><a href="indicadores.html">Indicadores</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section>
+      <h2>Datos del avistamiento</h2>
+
+      <p>
+        Los campos marcados con <span class="obligatorio">*</span>
+        son obligatorios.
+      </p>
+
+      <form id="form-avistamiento" novalidate>
+
+        <label for="tipo-ave">
+          Tipo de ave <span class="obligatorio">*</span>
+        </label>
+        <select id="tipo-ave">
+          <option value="">-- Seleccione un tipo --</option>
+          <option value="rapaz">Rapaz</option>
+          <option value="acuatica">Acuática</option>
+          <option value="terrestre">Terrestre</option>
+          <option value="marina">Marina</option>
+          <option value="otra">Otra</option>
+        </select>
+        <span class="error" id="error-tipo-ave">
+          Seleccione un tipo de ave.
+        </span>
+
+        <label for="nombre-ave">
+          Nombre del ave <span class="obligatorio">*</span>
+        </label>
+        <input type="text" id="nombre-ave">
+        <span class="error" id="error-nombre-ave">
+          Ingrese un nombre de al menos 2 caracteres.
+        </span>
+
+        <label for="lugar">
+          Lugar del avistamiento <span class="obligatorio">*</span>
+        </label>
+        <input type="text" id="lugar">
+        <span class="error" id="error-lugar">
+          Ingrese el lugar del avistamiento.
+        </span>
+
+        <label for="fecha">
+          Fecha <span class="obligatorio">*</span>
+        </label>
+        <input type="date" id="fecha">
+        <span class="error" id="error-fecha">
+          La fecha debe ser válida y no puede tener más de 30 días de antigüedad.
+        </span>
+
+        <label for="hora">
+          Hora <span class="obligatorio">*</span>
+        </label>
+        <input type="time" id="hora">
+        <span class="error" id="error-hora">
+          Ingrese una hora válida.
+        </span>
+
+        <label for="registro">
+          Foto o video <span class="obligatorio">*</span>
+        </label>
+        <input
+          type="file"
+          id="registro"
+          accept="image/*,video/*"
+          multiple
+        >
+        <span class="error" id="error-registro">
+          Debe adjuntar al menos una foto o video.
+        </span>
+
+        <button class="boton-registro" type="submit">
+          Registrar avistamiento
+        </button>
+
+      </form>
+
+      <p id="mensaje-avistamiento"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>CC5002 - Desarrollo de Aplicaciones Web</p>
+  </footer>
+
+  <script src="js/avistamiento.js"></script>
+
+</body>
+</html>

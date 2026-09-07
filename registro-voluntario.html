@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de voluntario</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Registro de voluntario</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="registro-voluntario.html">Registrar voluntario</a></li>
+      <li><a href="registrar-avistamiento.html">Registrar avistamiento</a></li>
+      <li><a href="listado-avistamientos.html">Consultar avistamientos</a></li>
+      <li><a href="indicadores.html">Indicadores</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section>
+      <h2>Datos personales</h2>
+
+      <p>
+        Los campos marcados con <span class="obligatorio">*</span>
+        son obligatorios.
+      </p>
+
+      <form id="form-voluntario" novalidate>
+
+        <label for="nombre">
+          Nombre completo <span class="obligatorio">*</span>
+        </label>
+        <input type="text" id="nombre">
+        <span class="error" id="error-nombre">
+          Ingrese un nombre de al menos 3 caracteres.
+        </span>
+
+        <label for="email">
+          Correo electrónico <span class="obligatorio">*</span>
+        </label>
+        <input type="email" id="email">
+        <span class="error" id="error-email">
+          Ingrese un correo electrónico válido.
+        </span>
+
+        <label for="telefono">
+          Teléfono <span class="obligatorio">*</span>
+        </label>
+        <input type="tel" id="telefono">
+        <span class="error" id="error-telefono">
+          Ingrese un número de teléfono válido.
+        </span>
+
+        <label for="region">
+          Región <span class="obligatorio">*</span>
+        </label>
+        <select id="region">
+          <option value="">-- Seleccione una región --</option>
+          <option value="metropolitana">Región Metropolitana</option>
+          <option value="valparaiso">Región de Valparaíso</option>
+          <option value="biobio">Región del Biobío</option>
+          <option value="araucania">Región de La Araucanía</option>
+          <option value="los-lagos">Región de Los Lagos</option>
+        </select>
+        <span class="error" id="error-region">
+          Seleccione una región.
+        </span>
+
+        <label for="comuna">
+          Comuna <span class="obligatorio">*</span>
+        </label>
+        <input type="text" id="comuna">
+        <span class="error" id="error-comuna">
+          Ingrese una comuna.
+        </span>
+
+        <label for="direccion">
+          Dirección postal
+        </label>
+        <input type="text" id="direccion">
+
+        <button class="boton-registro" type="submit">Registrar voluntario</button>
+
+      </form>
+
+      <p id="mensaje-exito"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>CC5002 - Desarrollo de Aplicaciones Web</p>
+  </footer>
+
+  <script src="js/voluntario.js"></script>
+
+</body>
+</html>
