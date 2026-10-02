@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indicadores</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+  <header>
+    <h1>Indicadores</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('index') }}">Inicio</a></li>
+      <li><a href="{{ url_for('registro_voluntario') }}">Registrar voluntario</a></li>
+      <li><a href="{{ url_for('registrar_avistamiento') }}">Registrar avistamiento</a></li>
+      <li><a href="{{ url_for('listado_avistamientos') }}">Consultar avistamientos</a></li>
+      <li><a href="{{ url_for('indicadores') }}">Indicadores</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- Resumen general -->
+    <section>
+      <h2>Resumen general</h2>
+
+      <p>
+        Los siguientes indicadores se calculan utilizando
+        la información almacenada en la base de datos.
+      </p>
+
+      <div class="resumen-indicadores">
+
+        <article>
+          <h3>Voluntarios registrados</h3>
+
+          <p class="numero-indicador" id="total-voluntarios">
+            {{ total_voluntarios }}
+          </p>
+        </article>
+
+        <article>
+          <h3>Avistamientos registrados</h3>
+
+          <p class="numero-indicador" id="total-avistamientos">
+            {{ total_avistamientos }}
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+
+    <!-- Voluntarios por región -->
+    <section>
+      <h2>Voluntarios por región</h2>
+
+      <div id="grafico-voluntarios" class="grafico">
+      </div>
+    </section>
+
+
+    <!-- Avistamientos por especie -->
+    <section>
+      <h2>Avistamientos por especie de ave</h2>
+
+      <div id="grafico-avistamientos" class="grafico">
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>CC5002 - Desarrollo de Aplicaciones Web</p>
+  </footer>
+
+
+  <!-- Datos obtenidos desde Flask y MySQL -->
+
+  <script id="datos-voluntarios" type="application/json">
+    {{ voluntarios_por_region | tojson }}
+  </script>
+
+  <script id="datos-avistamientos" type="application/json">
+    {{ avistamientos_por_ave | tojson }}
+  </script>
+
+
+  <!-- JavaScript de indicadores -->
+
+  <script src="{{ url_for('static', filename='js/indicadores.js') }}"></script>
+
+</body>
+</html>

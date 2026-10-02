@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultar avistamientos</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+  <header>
+    <h1>Consultar avistamientos</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('index') }}">Inicio</a></li>
+      <li><a href="{{ url_for('registro_voluntario') }}">Registrar voluntario</a></li>
+      <li><a href="{{ url_for('registrar_avistamiento') }}">Registrar avistamiento</a></li>
+      <li><a href="{{ url_for('listado_avistamientos') }}">Consultar avistamientos</a></li>
+      <li><a href="{{ url_for('indicadores') }}">Indicadores</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <section>
+      <h2>Avistamientos registrados</h2>
+
+      {% if avistamientos %}
+
+        <table class="tabla-avistamientos">
+
+          <thead>
+            <tr>
+              <th>Fecha y hora</th>
+              <th>Nombre del ave</th>
+              <th>Lugar</th>
+              <th>Voluntario</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {% for avistamiento in avistamientos %}
+
+              <tr
+                onclick="window.location.href='{{ url_for('detalle_avistamiento', avistamiento_id=avistamiento.id) }}'"
+                style="cursor: pointer;"
+              >
+
+                <td>
+                  {{ avistamiento.fecha_hora.strftime('%d/%m/%Y %H:%M') }}
+                </td>
+
+                <td>
+                  {{ avistamiento.nombre_ave }}
+                </td>
+
+                <td>
+                  {{ avistamiento.lugar }}
+                </td>
+
+                <td>
+                  {{ avistamiento.nombre_voluntario }}
+                </td>
+
+                <td>
+                  <a href="{{ url_for('detalle_avistamiento', avistamiento_id=avistamiento.id) }}">
+                    Ver detalle
+                  </a>
+                </td>
+
+              </tr>
+
+            {% endfor %}
+
+          </tbody>
+
+        </table>
+
+      {% else %}
+
+        <p>No existen avistamientos para mostrar.</p>
+
+      {% endif %}
+
+    </section>
+
+    {% if total_paginas > 1 %}
+
+      <nav class="paginacion" aria-label="Paginación de avistamientos">
+
+        {% if pagina > 1 %}
+          <a href="{{ url_for('listado_avistamientos', pagina=pagina-1) }}">
+            Anterior
+          </a>
+        {% endif %}
+
+        <span>
+          Página {{ pagina }} de {{ total_paginas }}
+        </span>
+
+        {% if pagina < total_paginas %}
+          <a href="{{ url_for('listado_avistamientos', pagina=pagina+1) }}">
+            Siguiente
+          </a>
+        {% endif %}
+
+      </nav>
+
+    {% endif %}
+
+  </main>
+
+  <footer>
+    <p>CC5002 - Desarrollo de Aplicaciones Web</p>
+  </footer>
+
+</body>
+</html>
