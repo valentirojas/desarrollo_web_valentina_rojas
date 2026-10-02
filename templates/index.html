@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avistamientos de Aves en Chile</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+  <header>
+    <h1>Avistamientos de Aves en Chile</h1>
+    <p>Sistema de registro y consulta de avistamientos</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('index') }}">Inicio</a></li>
+      <li><a href="{{ url_for('registro_voluntario') }}">Registrar voluntario</a></li>
+      <li><a href="{{ url_for('registrar_avistamiento') }}">Registrar avistamiento</a></li>
+      <li><a href="{{ url_for('listado_avistamientos') }}">Consultar avistamientos</a></li>
+      <li><a href="{{ url_for('indicadores') }}">Indicadores</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    {% if mensaje_exito %}
+      <section>
+        <p>Avistamiento registrado correctamente.</p>
+      </section>
+    {% endif %}
+
+    <section>
+      <h2>Bienvenido</h2>
+
+      <p>
+        Este sistema permite registrar voluntarios, informar avistamientos
+        de aves y consultar la información registrada.
+      </p>
+    </section>
+
+    <section>
+      <h2>Últimos avistamientos registrados</h2>
+
+      {% if avistamientos %}
+
+        {% for avistamiento in avistamientos %}
+
+          <article class="avistamiento">
+
+            <h3>Avistamiento N.º {{ avistamiento.id }}</h3>
+
+            <p>
+              <strong>Lugar:</strong>
+              {{ avistamiento.lugar }}
+            </p>
+
+            <p>
+              <strong>Fecha y hora:</strong>
+              {{ avistamiento.fecha_hora.strftime('%d/%m/%Y %H:%M') }}
+            </p>
+
+            <p>
+              <a href="{{ url_for('detalle_avistamiento', avistamiento_id=avistamiento.id) }}">
+                Ver detalle del avistamiento
+              </a>
+            </p>
+
+          </article>
+
+        {% endfor %}
+
+      {% else %}
+
+        <p>Todavía no existen avistamientos registrados.</p>
+
+      {% endif %}
+
+    </section>
+
+    <section>
+      <h2>Funciones disponibles</h2>
+
+      <article>
+        <h3>Registro de voluntarios</h3>
+
+        <p>
+          Permite ingresar los datos de identificación y contacto de las
+          personas voluntarias.
+        </p>
+      </article>
+
+      <article>
+        <h3>Registro de avistamientos</h3>
+
+        <p>
+          Permite informar un nuevo avistamiento de ave junto con su lugar,
+          fecha, hora y registro multimedia.
+        </p>
+      </article>
+
+      <article>
+        <h3>Consulta de avistamientos</h3>
+
+        <p>
+          Permite consultar los avistamientos registrados y acceder
+          a sus detalles.
+        </p>
+      </article>
+
+      <article>
+        <h3>Indicadores</h3>
+
+        <p>
+          Permite visualizar información resumida sobre voluntarios y
+          avistamientos.
+        </p>
+      </article>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>CC5002 - Desarrollo de Aplicaciones Web</p>
+  </footer>
+
+</body>
+</html>

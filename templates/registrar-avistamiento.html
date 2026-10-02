@@ -1,11 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registrar avistamiento</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
 
   <header>
@@ -14,11 +16,11 @@
 
   <nav>
     <ul>
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="registro-voluntario.html">Registrar voluntario</a></li>
-      <li><a href="registrar-avistamiento.html">Registrar avistamiento</a></li>
-      <li><a href="listado-avistamientos.html">Consultar avistamientos</a></li>
-      <li><a href="indicadores.html">Indicadores</a></li>
+      <li><a href="{{ url_for('index') }}">Inicio</a></li>
+      <li><a href="{{ url_for('registro_voluntario') }}">Registrar voluntario</a></li>
+      <li><a href="{{ url_for('registrar_avistamiento') }}">Registrar avistamiento</a></li>
+      <li><a href="{{ url_for('listado_avistamientos') }}">Consultar avistamientos</a></li>
+      <li><a href="{{ url_for('indicadores') }}">Indicadores</a></li>
     </ul>
   </nav>
 
@@ -31,12 +33,40 @@
         son obligatorios.
       </p>
 
-      <form id="form-avistamiento" novalidate>
+      <form
+        id="form-avistamiento"
+        method="POST"
+        action="{{ url_for('registrar_avistamiento') }}"
+        enctype="multipart/form-data"
+        novalidate
+      >
+
+        <label for="voluntario">
+          Voluntario <span class="obligatorio">*</span>
+        </label>
+
+        <select id="voluntario" name="voluntario">
+          <option value="">-- Seleccione un voluntario --</option>
+
+          {% for voluntario in voluntarios %}
+            <option
+              value="{{ voluntario.id }}"
+              {% if voluntario.id == voluntario_seleccionado %}selected{% endif %}
+            >
+              {{ voluntario.nombre }}
+            </option>
+          {% endfor %}
+        </select>
+
+        <span class="error" id="error-voluntario">
+          Seleccione un voluntario.
+        </span>
 
         <label for="tipo-ave">
           Tipo de ave <span class="obligatorio">*</span>
         </label>
-        <select id="tipo-ave">
+
+        <select id="tipo-ave" name="tipo_ave">
           <option value="">-- Seleccione un tipo --</option>
           <option value="rapaz">Rapaz</option>
           <option value="acuatica">Acuática</option>
@@ -44,6 +74,7 @@
           <option value="marina">Marina</option>
           <option value="otra">Otra</option>
         </select>
+
         <span class="error" id="error-tipo-ave">
           Seleccione un tipo de ave.
         </span>
@@ -51,15 +82,31 @@
         <label for="nombre-ave">
           Nombre del ave <span class="obligatorio">*</span>
         </label>
-        <input type="text" id="nombre-ave">
+
+        <select id="nombre-ave" name="ave">
+          <option value="">-- Seleccione un ave --</option>
+
+          {% for ave in aves %}
+            <option value="{{ ave.id }}">
+              {{ ave.nombre }}
+            </option>
+          {% endfor %}
+        </select>
+
         <span class="error" id="error-nombre-ave">
-          Ingrese un nombre de al menos 2 caracteres.
+          Seleccione un ave.
         </span>
 
         <label for="lugar">
           Lugar del avistamiento <span class="obligatorio">*</span>
         </label>
-        <input type="text" id="lugar">
+
+        <input
+          type="text"
+          id="lugar"
+          name="lugar"
+        >
+
         <span class="error" id="error-lugar">
           Ingrese el lugar del avistamiento.
         </span>
@@ -67,7 +114,13 @@
         <label for="fecha">
           Fecha <span class="obligatorio">*</span>
         </label>
-        <input type="date" id="fecha">
+
+        <input
+          type="date"
+          id="fecha"
+          name="fecha"
+        >
+
         <span class="error" id="error-fecha">
           La fecha debe ser válida y no puede tener más de 30 días de antigüedad.
         </span>
@@ -75,7 +128,13 @@
         <label for="hora">
           Hora <span class="obligatorio">*</span>
         </label>
-        <input type="time" id="hora">
+
+        <input
+          type="time"
+          id="hora"
+          name="hora"
+        >
+
         <span class="error" id="error-hora">
           Ingrese una hora válida.
         </span>
@@ -83,14 +142,17 @@
         <label for="registro">
           Foto o video <span class="obligatorio">*</span>
         </label>
+
         <input
           type="file"
           id="registro"
+          name="registro"
           accept="image/*,video/*"
           multiple
         >
+
         <span class="error" id="error-registro">
-          Debe adjuntar al menos una foto o video.
+          Debe adjuntar al menos una foto o video válido.
         </span>
 
         <button class="boton-registro" type="submit">
@@ -100,6 +162,19 @@
       </form>
 
       <p id="mensaje-avistamiento"></p>
+
+      {% if errores %}
+        <div class="error visible">
+          {% for error in errores %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if exito %}
+        <p>Avistamiento registrado correctamente.</p>
+      {% endif %}
+
     </section>
   </main>
 
@@ -107,7 +182,7 @@
     <p>CC5002 - Desarrollo de Aplicaciones Web</p>
   </footer>
 
-  <script src="js/avistamiento.js"></script>
+  <script src="{{ url_for('static', filename='js/avistamiento.js') }}"></script>
 
 </body>
 </html>

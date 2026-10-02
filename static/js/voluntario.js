@@ -1,3 +1,4 @@
+
 const formulario = document.getElementById("form-voluntario");
 
 const nombre = document.getElementById("nombre");
@@ -25,8 +26,6 @@ const validarTelefono = (valor) => {
 };
 
 formulario.addEventListener("submit", (event) => {
-  event.preventDefault();
-
   const nombreValor = nombre.value.trim();
   const emailValor = email.value.trim();
   const telefonoValor = telefono.value.trim();
@@ -62,7 +61,7 @@ formulario.addEventListener("submit", (event) => {
     errorRegion.classList.remove("visible");
   }
 
-  if (comunaValor === "") {
+  if (comunaValor === "" || comuna.disabled) {
     errorComuna.classList.add("visible");
     valido = false;
   } else {
@@ -70,10 +69,36 @@ formulario.addEventListener("submit", (event) => {
   }
 
   if (!valido) {
+    event.preventDefault();
     mensajeExito.innerText = "";
+  }
+});
+
+region.addEventListener("change", () => {
+  const regionId = region.value;
+
+  comuna.innerHTML =
+    '<option value="">-- Seleccione una comuna --</option>';
+
+  comuna.disabled = true;
+  errorComuna.classList.remove("visible");
+
+  if (regionId === "") {
     return;
   }
 
-  mensajeExito.innerText = "Voluntario registrado correctamente.";
-  formulario.reset();
+  fetch(`/comunas/${regionId}`)
+    .then(response => response.json())
+    .then(comunas => {
+      comunas.forEach(comunaActual => {
+        const option = document.createElement("option");
+
+        option.value = comunaActual.id;
+        option.textContent = comunaActual.nombre;
+
+        comuna.appendChild(option);
+      });
+
+      comuna.disabled = false;
+    });
 });

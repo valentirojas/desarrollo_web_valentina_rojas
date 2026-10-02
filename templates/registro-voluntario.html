@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de voluntario</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+  <header>
+    <h1>Registro de voluntario</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('index') }}">Inicio</a></li>
+      <li><a href="{{ url_for('registro_voluntario') }}">Registrar voluntario</a></li>
+      <li><a href="{{ url_for('registrar_avistamiento') }}">Registrar avistamiento</a></li>
+      <li><a href="{{ url_for('listado_avistamientos') }}">Consultar avistamientos</a></li>
+      <li><a href="{{ url_for('indicadores') }}">Indicadores</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section>
+
+      <h2>Datos personales</h2>
+
+      <p>
+        Los campos marcados con <span class="obligatorio">*</span>
+        son obligatorios.
+      </p>
+
+      <form id="form-voluntario"
+            method="POST"
+            action="{{ url_for('registro_voluntario') }}"
+            novalidate>
+
+        <label for="nombre">
+          Nombre completo <span class="obligatorio">*</span>
+        </label>
+
+        <input type="text" id="nombre" name="nombre">
+
+        <span class="error" id="error-nombre">
+          Ingrese un nombre de al menos 3 caracteres.
+        </span>
+
+
+        <label for="email">
+          Correo electrónico <span class="obligatorio">*</span>
+        </label>
+
+        <input type="email" id="email" name="email">
+
+        <span class="error" id="error-email">
+          Ingrese un correo electrónico válido.
+        </span>
+
+
+        <label for="telefono">
+          Teléfono <span class="obligatorio">*</span>
+        </label>
+
+        <input type="tel" id="telefono" name="telefono">
+
+        <span class="error" id="error-telefono">
+          Ingrese un número de teléfono válido.
+        </span>
+
+
+        <label for="region">
+          Región <span class="obligatorio">*</span>
+        </label>
+
+        <select id="region" name="region">
+          <option value="">-- Seleccione una región --</option>
+
+          {% for region in regiones %}
+            <option value="{{ region.id }}">
+              {{ region.nombre }}
+            </option>
+          {% endfor %}
+
+        </select>
+
+        <span class="error" id="error-region">
+          Seleccione una región.
+        </span>
+
+
+        <label for="comuna">
+          Comuna <span class="obligatorio">*</span>
+        </label>
+
+        <select id="comuna" name="comuna" disabled>
+          <option value="">-- Primero seleccione una región --</option>
+        </select>
+
+        <span class="error" id="error-comuna">
+          Seleccione una comuna.
+        </span>
+
+
+        <label for="direccion">
+          Dirección postal
+        </label>
+
+        <input type="text" id="direccion" name="direccion">
+
+
+        <button class="boton-registro" type="submit">
+          Registrar voluntario
+        </button>
+
+      </form>
+
+
+      <!-- Mensaje de registro exitoso -->
+
+      {% if exito %}
+
+        <section id="mensaje-exito">
+
+          <h2>Voluntario registrado correctamente</h2>
+
+          <p>
+            Los datos del voluntario fueron guardados correctamente.
+            Puede registrar un avistamiento para este voluntario
+            o continuar a la página de inicio.
+          </p>
+
+          <p>
+            <a href="{{ url_for('registrar_avistamiento', voluntario_id=voluntario_registrado_id) }}">
+              Registrar un avistamiento
+            </a>
+          </p>
+
+          <p>
+            <a href="{{ url_for('index') }}">
+              Volver al inicio
+            </a>
+          </p>
+
+        </section>
+
+      {% endif %}
+
+
+      <!-- Mensajes de error enviados por Flask -->
+
+      {% if errores %}
+
+        <div class="error visible">
+
+          {% for error in errores %}
+            <p>{{ error }}</p>
+          {% endfor %}
+
+        </div>
+
+      {% endif %}
+
+    </section>
+  </main>
+
+
+  <footer>
+    <p>CC5002 - Desarrollo de Aplicaciones Web</p>
+  </footer>
+
+
+  <script src="{{ url_for('static', filename='js/voluntario.js') }}"></script>
+
+</body>
+</html>
