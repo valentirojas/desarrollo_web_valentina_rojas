@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,10 +55,10 @@
       </p>
 
       {% if avistamiento.descripcion %}
-        <p>
-          <strong>Descripción:</strong>
-          {{ avistamiento.descripcion }}
-        </p>
+      <p>
+        <strong>Descripción:</strong>
+        {{ avistamiento.descripcion }}
+      </p>
       {% endif %}
 
     </section>
@@ -68,38 +69,65 @@
 
       {% if archivos %}
 
-        {% for archivo in archivos %}
+      {% for archivo in archivos %}
 
-          <article>
+      <article>
 
-            <p>{{ archivo.nombre }}</p>
+        <p>{{ archivo.nombre }}</p>
 
-            {% if archivo.es_video %}
+        {% if archivo.es_video %}
 
-              <video controls width="400">
-                <source src="{{ url_for('static', filename=archivo.ruta) }}">
-                Tu navegador no permite reproducir este video.
-              </video>
+        <video controls width="400">
+          <source src="{{ url_for('static', filename=archivo.ruta) }}">
+          Tu navegador no permite reproducir este video.
+        </video>
 
-            {% else %}
+        {% else %}
 
-              <img
-                src="{{ url_for('static', filename=archivo.ruta) }}"
-                alt="Fotografía del avistamiento"
-                style="max-width: 100%; width: 400px;"
-              >
+        <img src="{{ url_for('static', filename=archivo.ruta) }}" alt="Fotografía del avistamiento"
+          style="max-width: 100%; width: 400px;">
 
-            {% endif %}
+        {% endif %}
 
-          </article>
+      </article>
 
-        {% endfor %}
+      {% endfor %}
 
       {% else %}
 
-        <p>Este avistamiento no tiene archivos asociados.</p>
+      <p>Este avistamiento no tiene archivos asociados.</p>
 
       {% endif %}
+
+    </section>
+
+    <section id="seccion-comentarios" data-avistamiento-id="{{ avistamiento.id }}">
+
+      <h2>Comentarios</h2>
+
+      <h3>Agregar comentario</h3>
+
+      <form id="formulario-comentario">
+
+        <p>
+          <label for="nombre-comentario">Nombre:</label>
+          <input type="text" id="nombre-comentario" name="nombre" maxlength="50">
+        </p>
+
+        <p>
+          <label for="texto-comentario">Comentario:</label>
+          <textarea id="texto-comentario" name="texto" rows="3" cols="40" maxlength="300"></textarea>
+        </p>
+
+        <button type="submit">Enviar comentario</button>
+
+      </form>
+
+      <p id="mensaje-comentario" role="status"></p>
+
+      <h3>Comentarios registrados</h3>
+
+      <div id="lista-comentarios"></div>
 
     </section>
 
@@ -115,5 +143,8 @@
     <p>CC5002 - Desarrollo de Aplicaciones Web</p>
   </footer>
 
+  <script src="{{ url_for('static', filename='js/comentarios.js') }}"></script>
+
 </body>
+
 </html>

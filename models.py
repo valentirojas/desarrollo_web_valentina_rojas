@@ -50,6 +50,7 @@ class Avistamiento(Base):
     fecha_hora: Mapped[datetime] = mapped_column(DateTime)
     lugar: Mapped[str] = mapped_column(String(200))
     descripcion: Mapped[str | None] = mapped_column(Text, nullable=True)
+    tipo_ave: Mapped[str | None] = mapped_column(String(20), nullable=True)
 
 
 class Registro(Base):
@@ -58,6 +59,17 @@ class Registro(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     ruta_archivo: Mapped[str] = mapped_column(String(300))
     nombre_archivo: Mapped[str] = mapped_column(String(300))
+    avistamiento_id: Mapped[int] = mapped_column(
+        ForeignKey("avistamiento.id")
+    )
+    
+class Comentario(Base):
+    __tablename__ = "comentario"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    nombre: Mapped[str] = mapped_column(String(80))
+    texto: Mapped[str] = mapped_column(String(300))
+    fecha: Mapped[datetime] = mapped_column(DateTime)
     avistamiento_id: Mapped[int] = mapped_column(
         ForeignKey("avistamiento.id")
     )

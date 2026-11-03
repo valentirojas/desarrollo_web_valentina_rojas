@@ -1,109 +1,95 @@
 
-const graficoVoluntarios =
-  document.getElementById("grafico-voluntarios");
+document.addEventListener("DOMContentLoaded", () => {
+  const cargarEstadisticas = async () => {
+    try {
+      const respuesta = await fetch("/api/estadisticas");
 
-const graficoAvistamientos =
-  document.getElementById("grafico-avistamientos");
+      if (!respuesta.ok) {
+        throw new Error("No se pudieron cargar las estadísticas.");
+      }
 
+      const datos = await respuesta.json();
 
-// Obtener los datos enviados por Flask
+      const dias = datos.avistamientos_por_dia;
+      const tipos = datos.avistamientos_por_tipo;
+      const comunas = datos.voluntarios_por_comuna;
 
-const voluntariosPorRegion = JSON.parse(
-  document.getElementById("datos-voluntarios").textContent
-);
+      new Chart(document.getElementById("grafico-dias"), {
+        type: "line",
+        data: {
+          labels: dias.map((dato) => dato.fecha),
+          datasets: [{
+            label: "Cantidad de avistamientos",
+            data: dias.map((dato) => dato.cantidad),
+            borderColor: "#638B48",
+            backgroundColor: "#A5C882",
+            tension: 0.2
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0
+              }
+            }
+          }
+        }
+      });
 
-const avistamientosPorAve = JSON.parse(
-  document.getElementById("datos-avistamientos").textContent
-);
+      new Chart(document.getElementById("grafico-tipos"), {
+        type: "pie",
+        data: {
+          labels: tipos.map((dato) => dato.tipo),
+          datasets: [{
+            label: "Avistamientos",
+            data: tipos.map((dato) => dato.cantidad),
+            backgroundColor: [
+              "#638B48",
+              "#A5C882",
+              "#C48A4A",
+              "#E2B86C",
+              "#789FA0",
+              "#B89CB8"
+            ]
+          }]
+        },
+        options: {
+          responsive: true
+        }
+      });
 
+      new Chart(document.getElementById("grafico-comunas"), {
+        type: "bar",
+        data: {
+          labels: comunas.map((dato) => dato.comuna),
+          datasets: [{
+            label: "Voluntarios registrados",
+            data: comunas.map((dato) => dato.cantidad),
+            backgroundColor: "#C48A4A"
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0
+              }
+            }
+          }
+        }
+      });
 
-// Función para crear las barras de los gráficos
+    } catch (error) {
+      document.getElementById("error-estadisticas").textContent =
+        error.message;
+    }
+  };
 
-const crearBarra = (nombre, cantidad, maximo) => {
-  const contenedor = document.createElement("article");
-  contenedor.classList.add("barra-contenedor");
+  cargarEstadisticas();
+});
 
-  const etiqueta = document.createElement("p");
-  etiqueta.classList.add("barra-etiqueta");
-  etiqueta.innerText = nombre;
-
-  const barra = document.createElement("div");
-  barra.classList.add("barra");
-
-  const valor = document.createElement("div");
-  valor.classList.add("barra-valor");
-
-  const porcentaje = (cantidad / maximo) * 100;
-
-  valor.style.width = porcentaje + "%";
-  valor.innerText = cantidad;
-
-  barra.appendChild(valor);
-
-  contenedor.appendChild(etiqueta);
-  contenedor.appendChild(barra);
-
-  return contenedor;
-};
-
-
-// --------------------------------------------------
-// Gráfico de voluntarios por región
-// --------------------------------------------------
-
-if (voluntariosPorRegion.length === 0) {
-
-  graficoVoluntarios.innerText =
-    "Todavía no existen voluntarios registrados.";
-
-} else {
-
-  const cantidades = voluntariosPorRegion.map(
-    voluntario => voluntario.cantidad
-  );
-
-  const maximoVoluntarios = Math.max(...cantidades);
-
-  voluntariosPorRegion.forEach((voluntario) => {
-
-    const barra = crearBarra(
-      voluntario.nombre,
-      voluntario.cantidad,
-      maximoVoluntarios
-    );
-
-    graficoVoluntarios.appendChild(barra);
-
-  });
-}
-
-
-// --------------------------------------------------
-// Gráfico de avistamientos por especie
-// --------------------------------------------------
-
-if (avistamientosPorAve.length === 0) {
-
-  graficoAvistamientos.innerText =
-    "Todavía no existen avistamientos registrados.";
-
-} else {
-
-  const cantidades = avistamientosPorAve.map(
-    avistamiento => avistamiento.cantidad
-  );
-
-  const maximoAvistamientos = Math.max(...cantidades);
-
-  avistamientosPorAve.forEach((avistamiento) => {
-
-    const barra = crearBarra(
-      avistamiento.nombre,
-      avistamiento.cantidad,
-      maximoAvistamientos
-    );
-
-    graficoAvistamientos.appendChild(barra);
-
-  });
-}

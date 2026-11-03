@@ -17,7 +17,8 @@ from models import (
     Comuna,
     Voluntario,
     Ave,
-    Registro
+    Registro,
+    Comentario
 )
 
 
@@ -306,7 +307,8 @@ def registrar_avistamiento():
                         ave_id=int(ave_id),
                         fecha_hora=fecha_hora,
                         lugar=lugar,
-                        descripcion=None
+                        descripcion=None,
+                        tipo_ave=tipo_ave
                     )
 
                     session.add(nuevo_avistamiento)
@@ -535,6 +537,152 @@ def indicadores():
             voluntarios_por_region=voluntarios_por_region,
             avistamientos_por_ave=avistamientos_por_ave
         )
+    
+@app.route("/api/estadisticas")
+def obtener_estadisticas():
+    with Session(engine) as session:
+
+        consulta_dias = (
+            select(
+                func.date(Avistamiento.fecha_hora),
+                func.count(Avistamiento.id)
+            )
+            .group_by(func.date(Avistamiento.fecha_hora))
+            .order_by(func.date(Avistamiento.fecha_hora))
+        )
+
+        resultados_dias = session.execute(consulta_dias).all()
+
+        avistamientos_por_dia = []
+
+        for fecha, cantidad in resultados_dias:
+            avistamientos_por_dia.append({
+                "fecha": str(fecha),
+                "cantidad": cantidad
+            })
+
+        consulta_tipos = (
+            select(
+                Avistamiento.tipo_ave,
+                func.count(Avistamiento.id)
+            )
+            .group_by(Avistamiento.tipo_ave)
+        )
+
+        resultados_tipos = session.execute(consulta_tipos).all()
+
+        avistamientos_por_tipo = []
+
+        for tipo, cantidad in resultados_tipos:
+            avistamientos_por_tipo.append({
+                "tipo": tipo if tipo else "Sin clasificar",
+                "cantidad": cantidad
+            })
+
+        consulta_comunas = (
+            select(
+                Comuna.nombre,
+                func.count(Voluntario.id)
+            )
+            .join(Voluntario, Voluntario.comuna_id == Comuna.id)
+            .group_by(Comuna.id, Comuna.nombre)
+            .order_by(Comuna.nombre)
+        )
+
+        resultados_comunas = session.execute(consulta_comunas).all()
+
+        voluntarios_por_comuna = []
+
+        for nombre, cantidad in resultados_comunas:
+            voluntarios_por_comuna.append({
+                "comuna": nombre,
+                "cantidad": cantidad
+            })
+
+    return jsonify({
+        "avistamientos_por_dia": avistamientos_por_dia,
+        "avistamientos_por_tipo": avistamientos_por_tipo,
+        "voluntarios_por_comuna": voluntarios_por_comuna
+    })
+    
+@app.route("/comentarios/<int:avistamiento_id>", methods=["GET"])
+def obtener_comentarios(avistamiento_id):
+    with Session(engine) as session:
+        avistamiento = session.get(Avistamiento, avistamiento_id)
+
+        if avistamiento is None:
+            return jsonify({"error": "El avistamiento no existe."}), 404
+
+        comentarios = session.scalars(
+            select(Comentario)
+            .where(Comentario.avistamiento_id == avistamiento_id)
+            .order_by(Comentario.fecha.desc(), Comentario.id.desc())
+        ).all()
+
+        resultado = []
+
+        for comentario in comentarios:
+            resultado.append({
+                "id": comentario.id,
+                "nombre": comentario.nombre,
+                "texto": comentario.texto,
+                "fecha": comentario.fecha.strftime("%d-%m-%Y %H:%M")
+            })
+
+    return jsonify(resultado)
+
+@app.route("/comentarios/<int:avistamiento_id>", methods=["POST"])
+def registrar_comentario(avistamiento_id):
+    datos = request.get_json(silent=True)
+
+    if not isinstance(datos, dict):
+        return jsonify({
+            "error": "Debe enviar los datos del comentario."
+        }), 400
+
+    nombre = datos.get("nombre", "")
+    texto = datos.get("texto", "")
+
+    if not isinstance(nombre, str) or not isinstance(texto, str):
+        return jsonify({
+            "error": "Los datos ingresados no son válidos."
+        }), 400
+
+    nombre = nombre.strip()
+    texto = texto.strip()
+
+    errores = []
+
+    if len(nombre) < 3 or len(nombre) > 50:
+        errores.append("El nombre debe tener entre 3 y 50 caracteres.")
+
+    if len(texto) < 5 or len(texto) > 300:
+        errores.append("El comentario debe tener entre 5 y 300 caracteres.")
+
+    if errores:
+        return jsonify({"errores": errores}), 400
+
+    with Session(engine) as session:
+        avistamiento = session.get(Avistamiento, avistamiento_id)
+
+        if avistamiento is None:
+            return jsonify({
+                "error": "El avistamiento no existe."
+            }), 404
+
+        nuevo_comentario = Comentario(
+            nombre=nombre,
+            texto=texto,
+            fecha=datetime.now(),
+            avistamiento_id=avistamiento_id
+        )
+
+        session.add(nuevo_comentario)
+        session.commit()
+
+    return jsonify({
+        "mensaje": "Comentario registrado correctamente."
+    }), 201
 
 
 if __name__ == "__main__":

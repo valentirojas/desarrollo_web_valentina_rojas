@@ -1,43 +1,41 @@
-# Tarea 2 - CC5002 Desarrollo de Aplicaciones Web
+## Tarea 3 - Estadísticas y comentarios
 
-**Nombre:** Valentina Rojas
+Esta entrega continúa el desarrollo del sistema de registro de avistamientos de aves implementado en las tareas anteriores.
 
-## Ejecución
+### Nuevas funcionalidades
 
-La aplicación requiere Python, MySQL y las dependencias indicadas en `requirements.txt`.
+**1. Estadísticas**
 
-Se debe configurar previamente la base de datos `tarea2` utilizando los archivos SQL proporcionados para la tarea.
+Se incorporaron tres gráficos que utilizan información almacenada en MySQL:
 
-Para ejecutar la aplicación desde la carpeta principal del proyecto:
+- Gráfico de líneas: cantidad de avistamientos registrados por día.
+- Gráfico de torta: distribución de avistamientos por tipo de ave.
+- Gráfico de barras: cantidad de voluntarios registrados por comuna.
 
-```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python app.py
-```
+Los datos se obtienen mediante una solicitud asíncrona `fetch()` a la ruta `/api/estadisticas`, implementada con Flask y SQLAlchemy.
 
-La aplicación estará disponible en: http://127.0.0.1:5001/
+**2. Comentarios en avistamientos**
 
-## Configuración de la base de datos
+Se agregó un formulario de comentarios en la página de detalle de cada avistamiento.
 
-Los datos de conexión a MySQL se mantienen en un archivo local llamado `config.py`, el cual está excluido del repositorio mediante `.gitignore`.
+Cada comentario contiene nombre, texto, fecha y el identificador del avistamiento correspondiente.
 
-Para ejecutar la aplicación, se debe crear un archivo `config.py` en la carpeta principal del proyecto, junto a `app.py`, con el siguiente contenido:
+Se implementaron validaciones tanto en JavaScript como en Flask. El registro y la consulta de comentarios se realizan mediante solicitudes asíncronas, sin recargar la página.
 
-```python
-DATABASE_URL = "mysql+pymysql://cc5002:programacionweb@localhost:3306/tarea2"
-```
+Los comentarios se muestran utilizando `textContent` para evitar interpretar el contenido ingresado como HTML.
 
-La configuración corresponde a las credenciales indicadas en el enunciado de la Tarea 2.
+### Modificaciones a la base de datos
 
-## Consideraciones
+Se incorporó la tabla `comentario`, relacionada con `avistamiento` mediante una clave foránea.
 
-- Los voluntarios y avistamientos se almacenan en MySQL mediante SQLAlchemy.
-- Las comunas disponibles dependen de la región seleccionada.
-- Se permite registrar avistamientos ocurridos durante los últimos 30 días, excluyendo fechas y horas futuras.
-- Cada avistamiento debe incluir al menos una fotografía o video.
-- Los archivos multimedia se almacenan localmente en `static/uploads/`.
-- La portada presenta los dos últimos avistamientos registrados.
-- El listado presenta cinco avistamientos por página y permite acceder al detalle de cada registro.
-- Se realizan validaciones mediante JavaScript y Python.
+También se agregó la columna `tipo_ave` a la tabla `avistamiento` para permitir la clasificación de los registros en las estadísticas.
+
+Los avistamientos registrados antes de esta modificación pueden tener `tipo_ave` con valor `NULL` y se muestran como «Sin clasificar» en el gráfico correspondiente.
+
+### Consideraciones
+
+- La aplicación continúa utilizando Python, Flask, MySQL y SQLAlchemy.
+- Se reutilizaron las funcionalidades y validaciones de las entregas anteriores.
+- Los gráficos utilizan Chart.js.
+- Las operaciones asíncronas se implementaron con JavaScript mediante `fetch()`.
+- Para ejecutar la aplicación es necesario disponer de la base de datos configurada y de las dependencias indicadas en `requirements.txt`.

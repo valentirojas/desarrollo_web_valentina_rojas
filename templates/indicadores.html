@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,7 +39,6 @@
 
         <article>
           <h3>Voluntarios registrados</h3>
-
           <p class="numero-indicador" id="total-voluntarios">
             {{ total_voluntarios }}
           </p>
@@ -47,7 +46,6 @@
 
         <article>
           <h3>Avistamientos registrados</h3>
-
           <p class="numero-indicador" id="total-avistamientos">
             {{ total_avistamientos }}
           </p>
@@ -56,22 +54,40 @@
       </div>
     </section>
 
-
-    <!-- Voluntarios por región -->
+    <!-- Gráficos de estadísticas -->
     <section>
-      <h2>Voluntarios por región</h2>
 
-      <div id="grafico-voluntarios" class="grafico">
-      </div>
-    </section>
+      <h2>Gráficos de estadísticas</h2>
 
+      <p>
+        Los gráficos muestran información obtenida
+        desde la base de datos mediante solicitudes
+        asíncronas al servidor.
+      </p>
 
-    <!-- Avistamientos por especie -->
-    <section>
-      <h2>Avistamientos por especie de ave</h2>
+      <article>
+        <h3>Avistamientos por día</h3>
+        <div class="grafico">
+          <canvas id="grafico-dias"></canvas>
+        </div>
+      </article>
 
-      <div id="grafico-avistamientos" class="grafico">
-      </div>
+      <article>
+        <h3>Avistamientos por tipo de ave</h3>
+        <div class="grafico">
+          <canvas id="grafico-tipos"></canvas>
+        </div>
+      </article>
+
+      <article>
+        <h3>Voluntarios por comuna</h3>
+        <div class="grafico">
+          <canvas id="grafico-comunas"></canvas>
+        </div>
+      </article>
+
+      <p id="error-estadisticas" role="status"></p>
+
     </section>
 
   </main>
@@ -80,21 +96,12 @@
     <p>CC5002 - Desarrollo de Aplicaciones Web</p>
   </footer>
 
-
-  <!-- Datos obtenidos desde Flask y MySQL -->
-
-  <script id="datos-voluntarios" type="application/json">
-    {{ voluntarios_por_region | tojson }}
-  </script>
-
-  <script id="datos-avistamientos" type="application/json">
-    {{ avistamientos_por_ave | tojson }}
-  </script>
-
+  <!-- Biblioteca para generar gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
 
   <!-- JavaScript de indicadores -->
-
   <script src="{{ url_for('static', filename='js/indicadores.js') }}"></script>
 
 </body>
+
 </html>
