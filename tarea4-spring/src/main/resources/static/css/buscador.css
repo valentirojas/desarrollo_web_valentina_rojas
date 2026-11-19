@@ -1,0 +1,62 @@
+#busqueda {
+    display: block;
+    width: 100%;
+    max-width: 650px;
+    margin: 12px 0 24px;
+    padding: 10px;
+    font: inherit;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+}
+
+#resultados {
+    margin-top: 20px;
+}
+
+#resultados article {
+    margin-bottom: 16px;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+#resultados article h3 {
+    margin-top: 0;
+}
+
+#resultados article p {
+    margin: 10px 0;
+}
+
+#resultados select {
+    margin: 8px;
+    padding: 7px;
+    font: inherit;
+}
+
+#resultados button {
+    padding: 8px 14px;
+    font: inherit;
+    cursor: pointer;
+}
+
+#resultados button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+mark {
+    background-color: #ffe58a;
+    color: #222;
+}
+
+@media (max-width: 600px) {
+    #busqueda {
+        max-width: 100%;
+    }
+
+    #resultados article {
+        padding: 12px;
+    }
+}

@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,15 +22,16 @@
       <li><a href="{{ url_for('registrar_avistamiento') }}">Registrar avistamiento</a></li>
       <li><a href="{{ url_for('listado_avistamientos') }}">Consultar avistamientos</a></li>
       <li><a href="{{ url_for('indicadores') }}">Indicadores</a></li>
+      <li><a href="http://localhost:8080/buscador.html">Buscar y evaluar avistamientos</a></li>
     </ul>
   </nav>
 
   <main>
 
     {% if mensaje_exito %}
-      <section>
-        <p>Avistamiento registrado correctamente.</p>
-      </section>
+    <section>
+      <p>Avistamiento registrado correctamente.</p>
+    </section>
     {% endif %}
 
     <section>
@@ -38,7 +39,8 @@
 
       <p>
         Este sistema permite registrar voluntarios, informar avistamientos
-        de aves y consultar la información registrada.
+        de aves, consultar la información registrada y evaluar los
+        avistamientos mediante notas de 1 a 7.
       </p>
     </section>
 
@@ -47,35 +49,35 @@
 
       {% if avistamientos %}
 
-        {% for avistamiento in avistamientos %}
+      {% for avistamiento in avistamientos %}
 
-          <article class="avistamiento">
+      <article class="avistamiento">
 
-            <h3>Avistamiento N.º {{ avistamiento.id }}</h3>
+        <h3>Avistamiento N.º {{ avistamiento.id }}</h3>
 
-            <p>
-              <strong>Lugar:</strong>
-              {{ avistamiento.lugar }}
-            </p>
+        <p>
+          <strong>Lugar:</strong>
+          {{ avistamiento.lugar }}
+        </p>
 
-            <p>
-              <strong>Fecha y hora:</strong>
-              {{ avistamiento.fecha_hora.strftime('%d/%m/%Y %H:%M') }}
-            </p>
+        <p>
+          <strong>Fecha y hora:</strong>
+          {{ avistamiento.fecha_hora.strftime('%d/%m/%Y %H:%M') }}
+        </p>
 
-            <p>
-              <a href="{{ url_for('detalle_avistamiento', avistamiento_id=avistamiento.id) }}">
-                Ver detalle del avistamiento
-              </a>
-            </p>
+        <p>
+          <a href="{{ url_for('detalle_avistamiento', avistamiento_id=avistamiento.id) }}">
+            Ver detalle del avistamiento
+          </a>
+        </p>
 
-          </article>
+      </article>
 
-        {% endfor %}
+      {% endfor %}
 
       {% else %}
 
-        <p>Todavía no existen avistamientos registrados.</p>
+      <p>Todavía no existen avistamientos registrados.</p>
 
       {% endif %}
 
@@ -119,6 +121,23 @@
           avistamientos.
         </p>
       </article>
+
+      <article>
+        <h3>Búsqueda y evaluación de avistamientos</h3>
+
+        <p>
+          Permite buscar avistamientos por nombre del ave, voluntario
+          o comuna, visualizar sus promedios y registrar nuevas
+          evaluaciones con notas enteras entre 1 y 7.
+        </p>
+
+        <p>
+          <a href="http://localhost:8080/buscador.html">
+            Ir al buscador de avistamientos
+          </a>
+        </p>
+      </article>
+
     </section>
 
   </main>
@@ -128,4 +147,5 @@
   </footer>
 
 </body>
+
 </html>
