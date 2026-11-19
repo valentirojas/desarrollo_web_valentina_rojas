@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indicadores</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+  <header>
+    <h1>Indicadores</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('index') }}">Inicio</a></li>
+      <li><a href="{{ url_for('registro_voluntario') }}">Registrar voluntario</a></li>
+      <li><a href="{{ url_for('registrar_avistamiento') }}">Registrar avistamiento</a></li>
+      <li><a href="{{ url_for('listado_avistamientos') }}">Consultar avistamientos</a></li>
+      <li><a href="{{ url_for('indicadores') }}">Indicadores</a></li>
+      <li><a href="http://localhost:8080/buscador.html">Buscar y evaluar avistamientos</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- Resumen general -->
+    <section>
+      <h2>Resumen general</h2>
+
+      <p>
+        Los siguientes indicadores se calculan utilizando
+        la información almacenada en la base de datos.
+      </p>
+
+      <div class="resumen-indicadores">
+
+        <article>
+          <h3>Voluntarios registrados</h3>
+          <p class="numero-indicador" id="total-voluntarios">
+            {{ total_voluntarios }}
+          </p>
+        </article>
+
+        <article>
+          <h3>Avistamientos registrados</h3>
+          <p class="numero-indicador" id="total-avistamientos">
+            {{ total_avistamientos }}
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Gráficos de estadísticas -->
+    <section>
+
+      <h2>Gráficos de estadísticas</h2>
+
+      <p>
+        Los gráficos muestran información obtenida
+        desde la base de datos mediante solicitudes
+        asíncronas al servidor.
+      </p>
+
+      <article>
+        <h3>Avistamientos por día</h3>
+        <div class="grafico">
+          <canvas id="grafico-dias"></canvas>
+        </div>
+      </article>
+
+      <article>
+        <h3>Avistamientos por tipo de ave</h3>
+        <div class="grafico">
+          <canvas id="grafico-tipos"></canvas>
+        </div>
+      </article>
+
+      <article>
+        <h3>Voluntarios por comuna</h3>
+        <div class="grafico">
+          <canvas id="grafico-comunas"></canvas>
+        </div>
+      </article>
+
+      <p id="error-estadisticas" role="status"></p>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <p>CC5002 - Desarrollo de Aplicaciones Web</p>
+  </footer>
+
+  <!-- Biblioteca para generar gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+
+  <!-- JavaScript de indicadores -->
+  <script src="{{ url_for('static', filename='js/indicadores.js') }}"></script>
+
+</body>
+
+</html>

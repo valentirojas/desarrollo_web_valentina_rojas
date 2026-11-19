@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar y evaluar avistamientos</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/buscador.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Avistamientos de Aves en Chile</h1>
+        <p>Sistema de registro y consulta de avistamientos</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li>
+                <a href="http://127.0.0.1:5001/">
+                    Inicio
+                </a>
+            </li>
+
+            <li>
+                <a href="http://127.0.0.1:5001/registro-voluntario">
+                    Registrar voluntario
+                </a>
+            </li>
+
+            <li>
+                <a href="http://127.0.0.1:5001/registrar-avistamiento">
+                    Registrar avistamiento
+                </a>
+            </li>
+
+            <li>
+                <a href="http://127.0.0.1:5001/listado-avistamientos">
+                    Consultar avistamientos
+                </a>
+            </li>
+
+            <li>
+                <a href="http://127.0.0.1:5001/indicadores">
+                    Indicadores
+                </a>
+            </li>
+
+            <li>
+                <a href="/buscador.html">
+                    Buscar y evaluar avistamientos
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <main>
+
+        <section>
+            <h2>Buscar y evaluar avistamientos</h2>
+
+            <p>
+                Busca avistamientos por nombre del ave, voluntario
+                o comuna y registra evaluaciones con notas enteras
+                entre 1 y 7.
+            </p>
+
+            <label for="busqueda">
+                Buscar por ave, voluntario o comuna:
+            </label>
+
+            <input type="text" id="busqueda" name="busqueda" placeholder="Escribe para buscar" autocomplete="off">
+
+            <div id="resultados"></div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>CC5002 - Desarrollo de Aplicaciones Web</p>
+    </footer>
+
+    <script src="/js/buscador.js"></script>
+
+</body>
+
+</html>

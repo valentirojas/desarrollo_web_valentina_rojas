@@ -179,3 +179,44 @@ button {
   box-sizing: border-box;
   line-height: 28px;
 }
+
+
+/* Tabla de avistamientos */
+
+.tabla-avistamientos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tabla-avistamientos th,
+.tabla-avistamientos td {
+  border: 1px solid #ab9680;
+  padding: 12px;
+  text-align: left;
+}
+
+.tabla-avistamientos th {
+  background-color: #d9ef9f;
+  color: #342104;
+}
+
+.tabla-avistamientos tr:nth-child(even) {
+  background-color: #f5f1eb;
+}
+
+
+/* Enlaces de paginación */
+
+.paginacion a {
+  display: inline-block;
+  background-color: #ab9680;
+  color: white;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+}
+
+.paginacion a:hover {
+  background-color: #80654c;
+}

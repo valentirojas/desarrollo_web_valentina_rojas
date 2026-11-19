@@ -1,1 +1,23 @@
+
+# Entornos virtuales de Python
+venv/
+venv_antiguo/
+.venv/
+
+# Archivos generados por Python
+__pycache__/
+*.pyc
+
+# Archivos del sistema y del editor
 .DS_Store
+.vscode/
+
+# Archivos subidos por usuarios
+static/uploads/
+
+# Configuración privada
+.env
+
+# Archivos generados por Spring Boot / Maven
+target/
+*.log
